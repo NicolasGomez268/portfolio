@@ -1368,5 +1368,39 @@ h2, h3, .fw-bold {
     transform: scale(1.05);
 }
 
+/* Estilos para la sección de tecnologías */
+.tech-stack {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.tech-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.tech-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.tech-item i {
+    font-size: 1.2rem;
+}
+
+.tech-item span {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
 
 
