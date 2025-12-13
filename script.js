@@ -139,7 +139,7 @@ function copyPhone() {
     const phoneText = document.getElementById('phoneText').textContent;
     navigator.clipboard.writeText(phoneText)
         .then(() => {
-            const alert = document.getElementById('copyAlert');
+            const alert = document.getElementById('copyAlertPhone');
             alert.classList.add('show');
             setTimeout(() => {
                 alert.classList.remove('show');
