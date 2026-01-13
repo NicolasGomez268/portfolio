@@ -50,7 +50,8 @@ document.querySelectorAll('.animate-on-scroll').forEach((element) => {
     observer.observe(element);
 });
 
-// Inicialización de GSAP
+// Inicialización de GSAP - Comentado para evitar errores
+/*
 gsap.registerPlugin(ScrollTrigger);
 
 // Animaciones al cargar la página
@@ -74,6 +75,7 @@ gsap.utils.toArray('.glass-card').forEach(card => {
         duration: 0.8
     });
 });
+*/
 
 // Efecto parallax en las formas decorativas
 document.addEventListener('mousemove', (e) => {
@@ -108,7 +110,8 @@ window.addEventListener('scroll', () => {
     lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
 });
 
-// Animación de los iconos de habilidades
+// Animación de los iconos de habilidades - Comentado para evitar errores
+/*
 const skillIcons = document.querySelectorAll('.skill-card i');
 skillIcons.forEach(icon => {
     icon.addEventListener('mouseenter', () => {
@@ -119,6 +122,7 @@ skillIcons.forEach(icon => {
         });
     });
 });
+*/
 
 // Función para copiar el email
 function copyEmail() {
@@ -194,41 +198,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
             behavior: 'smooth'
         });
     });
-});
-
-// Inicialización de partículas en el fondo
-document.addEventListener("DOMContentLoaded", function() {
-    particlesJS("backgroundCanvas", {
-        particles: {
-            number: { value: 100, density: { enable: true, value_area: 800 } },
-            color: { value: "#ffffff" },
-            shape: { type: "circle" },
-            opacity: { value: 0.5, random: true },
-            size: { value: 3, random: true },
-            move: {
-                enable: true,
-                speed: 2,
-                direction: "none",
-                random: false,
-                straight: false,
-                out_mode: "out"
-            }
-        },
-        interactivity: {
-            events: {
-                onhover: { enable: true, mode: "repulse" },
-                onclick: { enable: true, mode: "push" }
-            },
-            modes: {
-                repulse: { distance: 100, duration: 0.4 },
-                push: { particles_nb: 4 }
-            }
-        }
-    });
-
-    gsap.from(".hero-section h1", { opacity: 0, y: -50, duration: 1, ease: "power3.out" });
-    gsap.from(".hero-section p", { opacity: 0, y: 50, duration: 1, ease: "power3.out", delay: 0.5 });
-    gsap.from(".btn-glow", { opacity: 0, scale: 0.8, duration: 0.8, ease: "back.out(1.7)", stagger: 0.2 });
 });
 
 // Barra de progreso de scroll
