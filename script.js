@@ -358,14 +358,3 @@ function typeWriter() {
 
 // Iniciar typewriter
 setTimeout(typeWriter, 500);
-
-// Parallax Scroll Effect en Hero
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const heroSection = document.querySelector('.hero-section');
-    
-    if (heroSection && scrolled < window.innerHeight) {
-        heroSection.style.transform = `translateY(${scrolled * 0.5}px)`;
-        heroSection.style.opacity = 1 - (scrolled / window.innerHeight) * 0.5;
-    }
-});
