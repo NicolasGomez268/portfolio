@@ -228,3 +228,11 @@ document.addEventListener("DOMContentLoaded", function() {
     gsap.from(".hero-section p", { opacity: 0, y: 50, duration: 1, ease: "power3.out", delay: 0.5 });
     gsap.from(".btn-glow", { opacity: 0, scale: 0.8, duration: 0.8, ease: "back.out(1.7)", stagger: 0.2 });
 });
+
+// Barra de progreso de scroll
+window.addEventListener('scroll', function() {
+    const scrollProgress = document.querySelector('.scroll-progress-bar');
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (window.scrollY / scrollHeight) * 100;
+    scrollProgress.style.width = scrolled + '%';
+});
