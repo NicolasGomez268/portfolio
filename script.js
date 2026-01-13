@@ -219,80 +219,61 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Efecto de ondas concéntricas siguiendo el cursor
+// Efecto sutil de cursor personalizado
 const canvas = document.getElementById('cursorCanvas');
 if (canvas) {
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const waves = [];
-    const colors = ['#8B5CF6', '#A78BFA', '#06B6D4', '#22D3EE'];
-
-    class Wave {
-        constructor(x, y) {
-            this.x = x;
-            this.y = y;
-            this.radius = 0;
-            this.maxRadius = 100;
-            this.lineWidth = 3;
-            this.color = colors[Math.floor(Math.random() * colors.length)];
-            this.life = 1;
-        }
-
-        update() {
-            this.radius += 2;
-            this.life -= 0.015;
-            this.lineWidth = 3 * this.life;
-        }
-
-        draw() {
-            ctx.strokeStyle = this.color;
-            ctx.lineWidth = this.lineWidth;
-            ctx.globalAlpha = this.life;
-            ctx.shadowBlur = 20;
-            ctx.shadowColor = this.color;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.stroke();
-        }
-    }
-
-    function handleWaves() {
-        for (let i = 0; i < waves.length; i++) {
-            waves[i].update();
-            waves[i].draw();
-
-            if (waves[i].life <= 0 || waves[i].radius >= waves[i].maxRadius) {
-                waves.splice(i, 1);
-                i--;
-            }
-        }
-    }
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorX = 0;
+    let cursorY = 0;
+    const trails = [];
+    const maxTrails = 8;
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        handleWaves();
+
+        // Suavizar movimiento del cursor
+        cursorX += (mouseX - cursorX) * 0.15;
+        cursorY += (mouseY - cursorY) * 0.15;
+
+        // Agregar posición al trail
+        trails.push({ x: cursorX, y: cursorY });
+        if (trails.length > maxTrails) {
+            trails.shift();
+        }
+
+        // Dibujar trail
+        trails.forEach((point, index) => {
+            const size = ((index + 1) / maxTrails) * 8;
+            const opacity = ((index + 1) / maxTrails) * 0.5;
+            
+            ctx.globalAlpha = opacity;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = index % 2 === 0 ? '#8B5CF6' : '#06B6D4';
+            
+            // Gradiente para el círculo
+            const gradient = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, size);
+            gradient.addColorStop(0, index % 2 === 0 ? '#8B5CF6' : '#06B6D4');
+            gradient.addColorStop(1, 'transparent');
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
+            ctx.fill();
+        });
+
         requestAnimationFrame(animate);
     }
 
     animate();
 
-    let lastTime = 0;
     document.addEventListener('mousemove', (e) => {
-        const now = Date.now();
-        if (now - lastTime > 100) {
-            waves.push(new Wave(e.clientX, e.clientY));
-            lastTime = now;
-        }
-    });
-
-    document.addEventListener('click', (e) => {
-        for (let i = 0; i < 3; i++) {
-            setTimeout(() => {
-                waves.push(new Wave(e.clientX, e.clientY));
-            }, i * 100);
-        }
+        mouseX = e.clientX;
+        mouseY = e.clientY;
     });
 
     window.addEventListener('resize', () => {
