@@ -344,36 +344,16 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Typewriter Effect
-const texts = [
-    'Desarrollador Full Stack',
-    'Apasionado por la IA',
-    'Especialista en Backend'
-];
-let textIndex = 0;
+const text = 'Desarrollador Full Stack apasionado por la IA';
 let charIndex = 0;
-let isDeleting = false;
 const typewriterElement = document.getElementById('typewriter');
 
 function typeWriter() {
-    const currentText = texts[textIndex];
-    
-    if (isDeleting) {
-        typewriterElement.textContent = currentText.substring(0, charIndex - 1);
-        charIndex--;
-    } else {
-        typewriterElement.textContent = currentText.substring(0, charIndex + 1);
+    if (charIndex < text.length) {
+        typewriterElement.textContent = text.substring(0, charIndex + 1);
         charIndex++;
+        setTimeout(typeWriter, 100);
     }
-    
-    if (!isDeleting && charIndex === currentText.length) {
-        setTimeout(() => isDeleting = true, 2000);
-    } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        textIndex = (textIndex + 1) % texts.length;
-    }
-    
-    const speed = isDeleting ? 50 : 100;
-    setTimeout(typeWriter, speed);
 }
 
 // Iniciar typewriter
