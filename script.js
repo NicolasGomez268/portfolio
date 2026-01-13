@@ -89,6 +89,8 @@ document.addEventListener('mousemove', (e) => {
 
 // Navbar scroll effect
 const navbar = document.querySelector('.navbar');
+let lastScrollTop = 0;
+const navbarHeight = navbar ? navbar.offsetHeight : 0;
 
 // Efecto de scroll en navbar
 window.addEventListener('scroll', () => {
@@ -97,10 +99,10 @@ window.addEventListener('scroll', () => {
     // Determina la dirección del scroll
     if (currentScroll > lastScrollTop && currentScroll > navbarHeight) {
         // Scroll hacia abajo - ocultar navbar
-        navbar.style.transform = 'translateY(-100%)';
+        if (navbar) navbar.style.transform = 'translateY(-100%)';
     } else {
         // Scroll hacia arriba - mostrar navbar
-        navbar.style.transform = 'translateY(0)';
+        if (navbar) navbar.style.transform = 'translateY(0)';
     }
     
     lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
