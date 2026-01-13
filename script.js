@@ -281,3 +281,64 @@ if (canvas) {
         canvas.height = window.innerHeight;
     });
 }
+
+// Animaciones de scroll reveal
+const revealElements = document.querySelectorAll('.project-card, .glass-card, .education-card, .skill-items li');
+
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+            setTimeout(() => {
+                entry.target.classList.add('reveal', 'active');
+            }, index * 100);
+        }
+    });
+}, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+});
+
+revealElements.forEach(el => {
+    el.classList.add('reveal');
+    revealObserver.observe(el);
+});
+
+// Efecto tilt 3D en project cards
+const projectCards = document.querySelectorAll('.project-card');
+
+projectCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+        
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+    });
+});
+
+// Smooth scroll con offset para navbar
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            const navHeight = document.querySelector('.navbar')?.offsetHeight || 0;
+            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
