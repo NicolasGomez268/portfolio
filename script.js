@@ -219,52 +219,52 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Efecto de partículas siguiendo el cursor
+// Efecto de ondas concéntricas siguiendo el cursor
 const canvas = document.getElementById('cursorCanvas');
 if (canvas) {
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const particles = [];
+    const waves = [];
     const colors = ['#8B5CF6', '#A78BFA', '#06B6D4', '#22D3EE'];
 
-    class Particle {
+    class Wave {
         constructor(x, y) {
             this.x = x;
             this.y = y;
-            this.size = Math.random() * 5 + 2;
-            this.speedX = Math.random() * 3 - 1.5;
-            this.speedY = Math.random() * 3 - 1.5;
+            this.radius = 0;
+            this.maxRadius = 100;
+            this.lineWidth = 3;
             this.color = colors[Math.floor(Math.random() * colors.length)];
             this.life = 1;
         }
 
         update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            this.life -= 0.02;
-            if (this.size > 0.2) this.size -= 0.1;
+            this.radius += 2;
+            this.life -= 0.015;
+            this.lineWidth = 3 * this.life;
         }
 
         draw() {
-            ctx.fillStyle = this.color;
+            ctx.strokeStyle = this.color;
+            ctx.lineWidth = this.lineWidth;
             ctx.globalAlpha = this.life;
-            ctx.shadowBlur = 15;
+            ctx.shadowBlur = 20;
             ctx.shadowColor = this.color;
             ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.stroke();
         }
     }
 
-    function handleParticles() {
-        for (let i = 0; i < particles.length; i++) {
-            particles[i].update();
-            particles[i].draw();
+    function handleWaves() {
+        for (let i = 0; i < waves.length; i++) {
+            waves[i].update();
+            waves[i].draw();
 
-            if (particles[i].life <= 0) {
-                particles.splice(i, 1);
+            if (waves[i].life <= 0 || waves[i].radius >= waves[i].maxRadius) {
+                waves.splice(i, 1);
                 i--;
             }
         }
@@ -272,15 +272,26 @@ if (canvas) {
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        handleParticles();
+        handleWaves();
         requestAnimationFrame(animate);
     }
 
     animate();
 
+    let lastTime = 0;
     document.addEventListener('mousemove', (e) => {
+        const now = Date.now();
+        if (now - lastTime > 100) {
+            waves.push(new Wave(e.clientX, e.clientY));
+            lastTime = now;
+        }
+    });
+
+    document.addEventListener('click', (e) => {
         for (let i = 0; i < 3; i++) {
-            particles.push(new Particle(e.clientX, e.clientY));
+            setTimeout(() => {
+                waves.push(new Wave(e.clientX, e.clientY));
+            }, i * 100);
         }
     });
 
