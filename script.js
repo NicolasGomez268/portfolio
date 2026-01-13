@@ -389,10 +389,3 @@ window.addEventListener('scroll', () => {
         heroSection.style.opacity = 1 - (scrolled / window.innerHeight) * 0.5;
     }
 });
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        }
-    });
-});
