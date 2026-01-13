@@ -1516,10 +1516,17 @@ section {
     top: 0;
     left: 0;
     width: 0%;
-    height: 5px;
-    background: linear-gradient(90deg, #64FFDA, #4CD2B0);
+    height: 6px;
+    background: linear-gradient(90deg, #64FFDA, #4CD2B0, #64FFDA);
+    background-size: 200% 100%;
+    animation: gradientMove 2s ease infinite;
     z-index: 10000;
     transition: width 0.1s ease-out;
-    box-shadow: 0 3px 15px rgba(100, 255, 218, 0.7);
+    box-shadow: 0 0 20px rgba(100, 255, 218, 0.8), 0 3px 15px rgba(100, 255, 218, 0.7);
     pointer-events: none;
+}
+
+@keyframes gradientMove {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }

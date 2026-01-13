@@ -232,7 +232,18 @@ document.addEventListener("DOMContentLoaded", function() {
 // Barra de progreso de scroll
 window.addEventListener('scroll', function() {
     const scrollProgress = document.querySelector('.scroll-progress-bar');
-    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (window.scrollY / scrollHeight) * 100;
-    scrollProgress.style.width = scrolled + '%';
+    if (scrollProgress) {
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (window.scrollY / scrollHeight) * 100;
+        scrollProgress.style.width = scrolled + '%';
+    }
+});
+
+// Inicializar la barra al cargar
+document.addEventListener('DOMContentLoaded', function() {
+    const scrollProgress = document.querySelector('.scroll-progress-bar');
+    if (scrollProgress) {
+        scrollProgress.style.width = '0%';
+        console.log('Barra de progreso inicializada');
+    }
 });
